@@ -28,15 +28,13 @@ public class ServicesAuthenticationJsonWebToken {
 
 		String jwt = Jwts.builder() /*GERAR O TOKEN*/
 				.setSubject(userName) /*SETA O USUARIO*/
-				.setExpiration(new Date(System.currentTimeMillis() + TIME_EXPIRATION))/*PASSA O TEMPO LIMITE DE EXPORACAO DO TOKEN*/
+				.setExpiration(new Date(System.currentTimeMillis() + TIME_EXPIRATION))/*PASSA O TEMPO LIMITE DE EXPiRACAO DO TOKEN*/
 				.signWith(SignatureAlgorithm.ES512, SECRET_PASSWORD).compact(); /*COMPACTA GERANDO A STRING DE AUTHENTICAO CRIPTOGRAFADA*/
 
 		String token = TOKEN_PREFIX + "" + jwt; /*JUNTA O A CHAVE COM O VALOR */
-		
-		response.setHeader(HEADER_RESPONSE, token);
+		response.setHeader(HEADER_RESPONSE, token);/*ESCREVE O TOKEN NO HEADER DE REPOSTA OU CABEÇALHO SE ASSIM QUEIRA CHAMAR*/
 		
 		// GERAR RESPOSTA DO TOKEN EM JSON
-		
 		response.getWriter().write("{\"Authorization\" : \""+token+"\"}");
 	}
 

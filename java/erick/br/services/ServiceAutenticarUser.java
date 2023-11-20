@@ -23,6 +23,7 @@ public class ServiceAutenticarUser implements UserDetailsService {
 		if(userLogado == null) {
 			throw new  UsernameNotFoundException("Usuario Não Encontrado");
 		}
+		
 		return new User(userLogado.getEmail() , userLogado.getPassword() , userLogado.getAuthorities());
 	}
 

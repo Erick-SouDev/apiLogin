@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -19,7 +20,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @SuppressWarnings("deprecation")
 @Service
 @Component
-public class ServicesAuthenticationJsonWebToken {
+public class JwtServicesAuthentication  {
 
 	@Autowired
 	RepositoryUsuario repositoryUsuario;
@@ -35,15 +36,14 @@ public class ServicesAuthenticationJsonWebToken {
 	
 	public Authentication getAuthentication(HttpServletRequest request) {
 		
-		// RESUMINDO ESSE CODIGO FAZ O REQUEST VERIFCA SE USUARIO TEM UM TOKEN
 		String token = request.getHeader(HEADER_RESPONSE);
-		if (token != null && token.contains("Authorization")) {
-			String user = Jwts.parser().setSigningKey(SECRET_PASSWORD).parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
+		if (token != null && !token.isEmpty()) {
+			String userToken = Jwts.parser().setSigningKey(SECRET_PASSWORD).parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
 					.getBody().getSubject();
 			
-			if (user != null && user.isEmpty()) {
+			if (userToken != null && userToken.isEmpty()) {
 				
-				Usuario userAutenticado = repositoryUsuario.findUserByLogin(user);
+				Usuario userAutenticado = repositoryUsuario.findUserByLogin(userToken);
 				return new UsernamePasswordAuthenticationToken(
 						userAutenticado.getEmail(), 
 						userAutenticado.getSenha(),
@@ -69,5 +69,7 @@ public class ServicesAuthenticationJsonWebToken {
 		response.getWriter().write("{\"Authorization\" : \"" + token + "\"}");
 	}
 
+	
+	
 
 }

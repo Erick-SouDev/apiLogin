@@ -24,7 +24,7 @@ public class JwtServicesLogin extends AbstractAuthenticationProcessingFilter {
 	
 
 
-	protected JwtServicesLogin(String url , AuthenticationManager authenticationManager) {
+	public JwtServicesLogin(String url , AuthenticationManager authenticationManager) {
 		super(new AntPathRequestMatcher(url));
 		setAuthenticationManager(authenticationManager);
 	}
@@ -48,7 +48,7 @@ public class JwtServicesLogin extends AbstractAuthenticationProcessingFilter {
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authResult) throws IOException, ServletException {
 		
-	     new ServicesAuthenticationJsonWebToken().authenticationToken(response, authResult.getName());
+	     new JwtServicesAuthentication().authenticationToken(response, authResult.getName());
 	}
 
 }

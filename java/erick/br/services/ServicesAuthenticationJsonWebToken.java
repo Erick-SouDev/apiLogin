@@ -54,10 +54,10 @@ public class ServicesAuthenticationJsonWebToken {
 		
 	}
 
-	public void authorizationToken(HttpServletResponse response, String userName) throws IOException {
+	public void authenticationToken(HttpServletResponse response, String userName) throws IOException {
 
 		String jwt = Jwts.builder() /* GERAR O TOKEN */
-				.setSubject(userName) /* SETA O USUARIO */
+				.setSubject(userName) 
 				.setExpiration(new Date(System.currentTimeMillis() + TIME_EXPIRATION)) //tempo de expiracao 
 				.signWith(SignatureAlgorithm.ES512, SECRET_PASSWORD) // passar o algoritmo de criptografia + a senha secreta
 				.compact(); 

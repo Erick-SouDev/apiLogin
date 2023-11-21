@@ -18,8 +18,7 @@ public class ConfigSecurity {
 		.csrf((c)->c.disable())
 		     .sessionManagement((s)-> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 		          .authorizeHttpRequests((auth)-> auth
-		        		  .requestMatchers(HttpMethod.POST , "/api/usuario/create").permitAll())
-		                      ;
+		        		  .requestMatchers(HttpMethod.POST , "/api/usuario/create").permitAll()) ;
 
 		return http.build();
 	}

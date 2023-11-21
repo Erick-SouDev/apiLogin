@@ -27,10 +27,32 @@ public class ServicesAuthenticationJsonWebToken {
 
 	private static final String SECRET_PASSWORD = "WgwbkKNQZZnmc69hgDwPoZ0XE1BcRYPDuKyQZoelidA=";
 
-	@SuppressWarnings("unused")
 	private static final String TOKEN_PREFIX = "Bearer";
 
 	private static final String HEADER_RESPONSE = "Authorization";
+	
+	
+	
+	public Authentication getAuthentication(HttpServletRequest request) {
+		
+		// RESUMINDO ESSE CODIGO FAZ O REQUEST VERIFCA SE USUARIO TEM UM TOKEN
+		String token = request.getHeader(HEADER_RESPONSE);
+		if (token != null && token.contains("Authorization")) {
+			String user = Jwts.parser().setSigningKey(SECRET_PASSWORD).parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
+					.getBody().getSubject();
+			
+			if (user != null && user.isEmpty()) {
+				
+				Usuario userAutenticado = repositoryUsuario.findUserByLogin(user);
+				return new UsernamePasswordAuthenticationToken(
+						userAutenticado.getEmail(), 
+						userAutenticado.getSenha(),
+						userAutenticado.getAuthorities());
+			}
+		}
+		return null;
+		
+	}
 
 	public void authorizationToken(HttpServletResponse response, String userName) throws IOException {
 
@@ -47,24 +69,5 @@ public class ServicesAuthenticationJsonWebToken {
 		response.getWriter().write("{\"Authorization\" : \"" + token + "\"}");
 	}
 
-	public Authentication getAuthentication(HttpServletRequest request) {
-
-		String token = request.getHeader(HEADER_RESPONSE);
-		if (token != null) {
-			String user = Jwts.parser().setSigningKey(SECRET_PASSWORD).parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
-					.getBody().getSubject();
-
-			if (user != null && user.isEmpty()) {
-
-				Usuario userAutenticado = repositoryUsuario.findUserByLogin(user);
-				return new UsernamePasswordAuthenticationToken(
-						userAutenticado.getEmail(), 
-						userAutenticado.getSenha(),
-						userAutenticado.getAuthorities());
-			}
-		}
-		return null;
-
-	}
 
 }

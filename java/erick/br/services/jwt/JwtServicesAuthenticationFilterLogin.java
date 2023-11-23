@@ -1,4 +1,4 @@
-package erick.br.config.security.jwt;
+package erick.br.services.jwt;
 
 public class JwtServicesAuthenticationFilterLogin {
 

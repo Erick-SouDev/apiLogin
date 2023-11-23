@@ -1,4 +1,4 @@
-package erick.br.config.security.jwt;
+package erick.br.services.jwt;
 
 import java.io.IOException;
 import java.util.Date;

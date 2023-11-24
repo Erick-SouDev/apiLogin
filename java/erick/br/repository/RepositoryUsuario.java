@@ -10,8 +10,7 @@ import erick.br.model.Usuario;
 
 @Transactional
 @Repository("repo_user")
-
 public interface RepositoryUsuario extends CrudRepository<Usuario, Long> {
-	@Query("select u from u where u.email = ?1")/*aqui no caso o login e o email cadastrado no banco*/
-	public Usuario findUserByLogin(@Param("login") String login);
+	@Query("select u from Usuario u where u.email = ?1")/*aqui no caso o login e o email cadastrado no banco*/
+	public Usuario findUserByLogin(@Param("email") String email);
 }

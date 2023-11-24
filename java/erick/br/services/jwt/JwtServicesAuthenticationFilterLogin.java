@@ -41,7 +41,8 @@ public class JwtServicesAuthenticationFilterLogin extends AbstractAuthentication
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authResult) throws IOException, ServletException {
-		new JwtServicesCreateToken().createAuthenticationJwt(response, authResult.getName());
+		
+	 	new JwtServicesCreateToken().createAuthenticationJwt(response, authResult.getName());
 
 	}
 }

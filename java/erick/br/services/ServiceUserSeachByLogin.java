@@ -18,13 +18,13 @@ public class ServiceUserSeachByLogin implements UserDetailsService {
 	RepositoryUsuario repositoryUsuario;
 	
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Usuario userLogado = repositoryUsuario.findUserByLogin(username);
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		Usuario userLogado = repositoryUsuario.findUserByLogin(email);
 		if(userLogado == null) {
 			throw new  UsernameNotFoundException("Usuario Não Encontrado");
 		}
 		
-		return new User(userLogado.getEmail() , userLogado.getPassword() , userLogado.getAuthorities());
+		return new User(userLogado.getEmail(), userLogado.getSenha(), userLogado.getAuthorities());
 	}
 
 }

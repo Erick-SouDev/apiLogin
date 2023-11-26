@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,16 +13,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import erick.br.model.Usuario;
 import erick.br.repository.RepositoryUsuario;
+import erick.br.services.ServicesDaoUsuario;
 
+@CrossOrigin(origins = {"*"})
 @RestController
-@RequestMapping(value = {"/"} , produces = {"application/json"} )
-public class ControlerUser {
+@RequestMapping(value = {"/usuario"} , produces = {"application/json"} )
+public class ControllerUser {
 
 	@Autowired
-	RepositoryUsuario repositoryUsuario;
+	ServicesDaoUsuario servicesDaoUsuario;
 	
 	
-	@GetMapping(value = {"/usuario"})
+	@GetMapping(value = {"/ola"})
 	public ResponseEntity<String> getHello(){
 		
 		return new ResponseEntity<String>("Ola ", HttpStatus.OK);
@@ -29,9 +32,7 @@ public class ControlerUser {
 	
 	@PostMapping(value = {"/create"})
 	public ResponseEntity<Usuario> createNewUser(@RequestBody Usuario usuario){
-		 String senhaCriptogrfada = new BCryptPasswordEncoder().encode(usuario.getSenha());
-		 usuario.setSenha(senhaCriptogrfada);
-		 Usuario newUser = repositoryUsuario.save(usuario);
-		 return new  ResponseEntity<Usuario>(newUser, HttpStatus.CREATED);
+		
+		 return new  ResponseEntity<Usuario>(servicesDaoUsuario.createNewUser(usuario), HttpStatus.CREATED);
 	}
 }

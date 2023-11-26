@@ -11,7 +11,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
-@EnableScheduling
 @EnableJpaRepositories(basePackages = "erick.br.repository")
 @ComponentScan(basePackages = { "erick.br.*" })
 @EntityScan(basePackages = { "erick.br.model" })

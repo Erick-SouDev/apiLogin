@@ -7,7 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
-public class ConfigSpringUtil {
+public class ConfigRestTemplate {
 
 	
 	@Bean("restTemplate")
@@ -15,10 +15,6 @@ public class ConfigSpringUtil {
 		return new RestTemplate();
 	}
 	
-	@Bean("bCript")
-	public PasswordEncoder encoder() {
-		return new BCryptPasswordEncoder();
-	}
-	
+
 	
 }

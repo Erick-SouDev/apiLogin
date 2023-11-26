@@ -9,6 +9,7 @@ public class GetContextApplication implements ApplicationContextAware {
 	@Autowired
 	public static org.springframework.context.ApplicationContext context;
 
+	@SuppressWarnings("static-access")
 	@Override
 	public void setApplicationContext(org.springframework.context.ApplicationContext applicationContext)
 			throws BeansException {

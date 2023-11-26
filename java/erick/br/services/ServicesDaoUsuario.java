@@ -1,6 +1,9 @@
 package erick.br.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import erick.br.model.Usuario;
@@ -11,8 +14,13 @@ public class ServicesDaoUsuario {
 
 	@Autowired
 	private RepositoryUsuario repositoryUsaurio;
+	
+	
 
-	public Usuario createUser(Usuario usuario) {
-		return repositoryUsaurio.save(usuario);
+	public Usuario createNewUser(Usuario usuario) {
+		 String senhaCriptogrfada = new BCryptPasswordEncoder().encode(usuario.getSenha());
+		 usuario.setSenha(senhaCriptogrfada);
+		 Usuario newUser = repositoryUsaurio.save(usuario);
+		 return newUser;
 	}
 }

@@ -1,11 +1,14 @@
 package erick.br.model;
 
+
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Objects;
 
-import org.hibernate.type.TrueFalseConverter;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -64,28 +67,24 @@ public class Usuario  implements UserDetails {
 	@JoinTable(name = "usuario_role" , uniqueConstraints = 
 	@UniqueConstraint(columnNames = { "usuario_id" , "role_id" } ,name = "constraint_user_role"),
 	 joinColumns =        @JoinColumn(name  = "usuario_id" , referencedColumnName = "id" , table = "Usuario" ,foreignKey = @ForeignKey(name = "usuario_fk")) 
-	,inverseJoinColumns = @JoinColumn(name  = "role_id" ,  referencedColumnName = "id" , table = "role"  , foreignKey = @ForeignKey(name = "role_fk") ) )
-	public List<Role> roles = new ArrayList<>();
+	,inverseJoinColumns = @JoinColumn(name  = "role_id" ,  referencedColumnName = "id" , table = "role"  , foreignKey = @ForeignKey(name = "role_fk") ))
 	
-	
-	
-	
-	
-	
-	
+	private List<Role> roles = new ArrayList<>();
+
+    public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
+    public List<Role> getRoles() {
+		return roles;
+	}
+
 	
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", nome=" + nome + ", email=" + email + ", senha=" + senha + "]";
 	}
 
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
-	}
 	
-	public List<Role> getRoles() {
-		return roles;
-	}
 
 	@Override
 	public int hashCode() {

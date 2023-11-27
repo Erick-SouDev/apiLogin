@@ -13,7 +13,7 @@ import erick.br.repository.RepositoryUsuario;
 
 @Service
 @Transactional
-public class ServiceUserSeachByLogin implements UserDetailsService {
+public class ServicesLoginUser implements UserDetailsService {
 	@Autowired
 	RepositoryUsuario repositoryUsuario;
 	

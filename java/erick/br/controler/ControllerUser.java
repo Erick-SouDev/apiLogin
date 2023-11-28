@@ -16,10 +16,10 @@ import erick.br.model.DtoToken;
 import erick.br.model.UserDto;
 import erick.br.model.Usuario;
 import erick.br.services.ServicesDaoUsuario;
-import erick.br.services.jwt.TokenServices;
+import erick.br.services.TokenServices;
 
 @RestController
-@RequestMapping(value = {"/" })
+@RequestMapping(value = {"/"})
 public class ControllerUser {
 
 	@Autowired
@@ -31,10 +31,10 @@ public class ControllerUser {
 	@Autowired
 	private TokenServices servicesCreateToken;
 
-	@GetMapping(value = {"/ola"})
-	public ResponseEntity<String> getHello() {
+	@GetMapping(value = { "/permitido" })
+	public ResponseEntity getHello() {
 
-		return new ResponseEntity<String>("Ola teste jwt", HttpStatus.OK);
+		return  ResponseEntity.ok("OLA JWT ESTA LIBERADA ESSA ROTA ");
 	}
 
 	@PostMapping(value = { "/create" })
@@ -49,10 +49,11 @@ public class ControllerUser {
 		UsernamePasswordAuthenticationToken userAuthenticatio = new UsernamePasswordAuthenticationToken(dto.getEmail(),
 				dto.getSenha());
 
-		Authentication userToken = authenticationManager.authenticate(userAuthenticatio);
-		String tokenGerado = servicesCreateToken.createToken(userToken);
+		Authentication userAuthenticationManager = authenticationManager
+				.authenticate(userAuthenticatio);
 
-		
-		return  ResponseEntity.ok(new DtoToken(tokenGerado));
+		var tokenGerado = servicesCreateToken.createToken(userAuthenticationManager);
+
+		return ResponseEntity.ok(new DtoToken(tokenGerado));
 	}
 }

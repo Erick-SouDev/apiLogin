@@ -8,7 +8,8 @@ import org.springframework.stereotype.Service;
 
 import erick.br.model.Usuario;
 import erick.br.repository.RepositoryUsuario;
-
+import jakarta.transaction.Transactional;
+@Transactional
 @Service
 public class ServicesDaoUsuario {
 

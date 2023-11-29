@@ -1,4 +1,4 @@
-package erick.br.config.security;
+package erick.br.config;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,7 +16,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-
 @Component
 public class SecurityFilterAuthorizationUser extends OncePerRequestFilter {
 
@@ -26,6 +25,7 @@ public class SecurityFilterAuthorizationUser extends OncePerRequestFilter {
 	@Autowired
 	private TokenServices tokenServices;
 
+	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 
@@ -33,22 +33,17 @@ public class SecurityFilterAuthorizationUser extends OncePerRequestFilter {
 
 		if (header != null) {
 			var tokenUser = header.replace("Bearer ", "");
-			var subjectUser = (String) tokenServices.getSubjectUser(tokenUser);
+			var subjectUser = tokenServices.getSubjectUser(tokenUser);
 			if (subjectUser != null) {
-
-				var usuarioRetornado = this.repositoryUsuario.findUserByLogin(subjectUser);
-				
-				System.out.println(usuarioRetornado);
-
+				var usuarioRetornado = repositoryUsuario.findUserByLogin(subjectUser);
 				if (usuarioRetornado != null) {
 					var authenticationToken = new UsernamePasswordAuthenticationToken(usuarioRetornado, null,
-							new ArrayList<>());
+							usuarioRetornado.getAuthorities());
 
 					SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 				}
 			}
 
-			
 		}
 		filterChain.doFilter(request, response);
 	}

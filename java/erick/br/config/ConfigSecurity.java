@@ -1,4 +1,4 @@
-package erick.br.config.security;
+package erick.br.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -14,36 +14,33 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import erick.br.services.ServicesLoginUser;
-
 @Configuration
 @EnableWebSecurity
-public class ConfigSecurity  {
+public class ConfigSecurity {
 
-	
 	@Autowired
 	private SecurityFilterAuthorizationUser filterAuthorizationUser;
-	
+
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-		
-		return httpSecurity
-				.csrf(csrf-> csrf.disable())
-				  .authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.POST, "/login").permitAll()
-						  .anyRequest()
-						  .authenticated())
-				         .sessionManagement(sessao -> sessao.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				         .addFilterBefore(filterAuthorizationUser,  UsernamePasswordAuthenticationFilter.class)
-				
-				.build();
+
+		httpSecurity.csrf((csrf) -> csrf.disable());
+		httpSecurity
+				.authorizeHttpRequests((auth) -> auth.requestMatchers(HttpMethod.POST, "/login").permitAll()
+						.anyRequest().authenticated().and()
+						.addFilterBefore(filterAuthorizationUser, UsernamePasswordAuthenticationFilter.class))
+			        	.sessionManagement(
+						sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
+		return httpSecurity.build();
 	}
 
 	@Bean
-	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-	return	authenticationConfiguration.getAuthenticationManager();
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+			throws Exception {
+		return authenticationConfiguration.getAuthenticationManager();
 	}
 
-	
 	@Bean
 	public PasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();

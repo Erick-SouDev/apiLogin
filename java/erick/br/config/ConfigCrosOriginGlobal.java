@@ -1,10 +1,6 @@
 package erick.br.config;
 
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-@Configuration
+/*@Configuration
 public class ConfigCrosOriginGlobal implements WebMvcConfigurer {
 
 	@Override
@@ -13,4 +9,4 @@ public class ConfigCrosOriginGlobal implements WebMvcConfigurer {
 				"GET", "DELETE", "PUT");
 
 	}
-}
+}*/

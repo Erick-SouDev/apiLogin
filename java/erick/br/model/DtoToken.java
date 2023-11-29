@@ -1,20 +1,19 @@
 package erick.br.model;
 
-public class DtoToken{
+public class DtoToken {
 
+	private String token;
 	
-	public DtoToken(String email) {
-		this.email = email;
+	public void setToken(String token) {
+		this.token = token;
 	}
-	private String email;
-	
-	public void setEmail(String email) {
-		this.email = email;
+	public String getToken() {
+		return token;
 	}
-	public String getEmail() {
-		return email;
+	public DtoToken(String token) {
+		// TODO Auto-generated constructor stub
+		this.token = token;
 	}
-	
 	
 
 }

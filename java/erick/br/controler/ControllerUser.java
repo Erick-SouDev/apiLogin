@@ -19,7 +19,7 @@ import erick.br.services.ServicesDaoUsuario;
 import erick.br.services.TokenServices;
 
 @RestController
-@RequestMapping(value = {"/"})
+@RequestMapping(value = { "/" })
 public class ControllerUser {
 
 	@Autowired
@@ -32,9 +32,8 @@ public class ControllerUser {
 	private TokenServices servicesCreateToken;
 
 	@GetMapping(value = { "/permitido" })
-	public ResponseEntity getHello() {
-
-		return  ResponseEntity.ok("OLA JWT ESTA LIBERADA ESSA ROTA ");
+	public ResponseEntity<String> getHello() {
+		return ResponseEntity.ok("OLA JWT ESTA LIBERADA ESSA ROTA ");
 	}
 
 	@PostMapping(value = { "/create" })
@@ -44,16 +43,15 @@ public class ControllerUser {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<?> authenticationUser(@RequestBody UserDto dto) throws ClassCastException {
+	public ResponseEntity<DtoToken> authenticationUser(@RequestBody UserDto dto) {
 
 		UsernamePasswordAuthenticationToken userAuthenticatio = new UsernamePasswordAuthenticationToken(dto.getEmail(),
 				dto.getSenha());
 
-		Authentication userAuthenticationManager = authenticationManager
-				.authenticate(userAuthenticatio);
+		Authentication userAuthenticationManager = authenticationManager.authenticate(userAuthenticatio);
 
 		var tokenGerado = servicesCreateToken.createToken(userAuthenticationManager);
+		return new ResponseEntity<DtoToken>(new DtoToken(tokenGerado), HttpStatus.CREATED);
 
-		return ResponseEntity.ok(new DtoToken(tokenGerado));
 	}
 }

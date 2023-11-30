@@ -1,12 +1,18 @@
 package erick.br.config;
 
-/*@Configuration
-public class ConfigCrosOriginGlobal implements WebMvcConfigurer {
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+@Configuration
+@EnableWebMvc
+public class ConfigCrosOriginGlobal implements WebMvcConfigurer{
 
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("*").allowCredentials(true).allowedHeaders("*").allowedOrigins("*").allowedMethods("POST",
-				"GET", "DELETE", "PUT");
-
+		  registry.addMapping("/**")
+	         .allowedOrigins("*")
+	        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
 	}
-}*/
+}

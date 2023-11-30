@@ -17,9 +17,16 @@ public class ServicesDaoUsuario {
 	private RepositoryUsuario repositoryUsaurio;
 	
 	
+	public ServicesDaoUsuario(BCryptPasswordEncoder bCryptPasswordEncoder) {
+		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+	}
+
+
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
 
 	public Usuario createNewUser(Usuario usuario) {
-		 String senhaCriptogrfada = new BCryptPasswordEncoder().encode(usuario.getSenha());
+		 String senhaCriptogrfada = bCryptPasswordEncoder.encode(usuario.getSenha());
 		 usuario.setSenha(senhaCriptogrfada);
 		 Usuario newUser = repositoryUsaurio.save(usuario);
 		 return newUser;

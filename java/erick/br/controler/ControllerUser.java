@@ -22,6 +22,10 @@ import erick.br.services.TokenServices;
 @RequestMapping(value = { "/" })
 public class ControllerUser {
 
+	public ControllerUser(AuthenticationManager authenticationManager) {
+		this.authenticationManager = authenticationManager;
+	}
+
 	@Autowired
 	private ServicesDaoUsuario servicesDaoUsuario;
 
@@ -44,10 +48,8 @@ public class ControllerUser {
 
 	@PostMapping("/login")
 	public ResponseEntity<DtoToken> authenticationUser(@RequestBody UserDto dto) {
-
 		UsernamePasswordAuthenticationToken userAuthenticatio = new UsernamePasswordAuthenticationToken(dto.getEmail(),
 				dto.getSenha());
-
 		Authentication userAuthenticationManager = authenticationManager.authenticate(userAuthenticatio);
 
 		var tokenGerado = servicesCreateToken.createToken(userAuthenticationManager);

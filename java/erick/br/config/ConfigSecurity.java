@@ -26,7 +26,10 @@ public class ConfigSecurity {
 
 		httpSecurity.csrf((csrf) -> csrf.disable());
 		httpSecurity
-				.authorizeHttpRequests((auth) -> auth.requestMatchers(HttpMethod.POST, "/login").permitAll()
+				.authorizeHttpRequests((auth) -> 
+				  auth.requestMatchers(HttpMethod.POST, "/login").permitAll()
+				  .requestMatchers(HttpMethod.POST,"/create").permitAll()
+						
 						.anyRequest().authenticated().and()
 						.addFilterBefore(filterAuthorizationUser, UsernamePasswordAuthenticationFilter.class))
 			        	.sessionManagement(

@@ -2,6 +2,7 @@ package erick.br.expetions;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,7 +19,7 @@ public class HandlerExptionsGlobal extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handlerExeptionDataIntegri(Exception e) {
 		String msg = "";
 		if (e instanceof DataIntegrityViolationException) {
-			msg = e.getMessage();
+			msg = ((DataIntegrityViolationException) e).getLocalizedMessage();
 		} else {
 			msg = e.getMessage();
 		}
@@ -26,7 +27,7 @@ public class HandlerExptionsGlobal extends ResponseEntityExceptionHandler {
 		ObjetoErro erro = new ObjetoErro();
 		erro.setCodigo(Status.ERROR);
 		erro.setMenssagem(msg);
-		return new ResponseEntity<Object>(erro, HttpStatus.FORBIDDEN);
+		return new ResponseEntity<Object>(erro, HttpStatus.BAD_REQUEST);
 
 	}
 

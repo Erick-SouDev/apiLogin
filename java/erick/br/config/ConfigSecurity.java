@@ -26,13 +26,13 @@ public class ConfigSecurity {
 
 		httpSecurity.csrf((csrf) -> csrf.disable());
 		httpSecurity
-				.authorizeHttpRequests((auth) -> 
-				  auth.requestMatchers(HttpMethod.POST, "/login").permitAll()
-				  .requestMatchers(HttpMethod.POST,"/create").permitAll()
-						
+				.authorizeHttpRequests((auth) -> auth.requestMatchers(HttpMethod.POST, "/login").permitAll()
+						.requestMatchers(HttpMethod.POST, "/create").permitAll()
+						.requestMatchers(HttpMethod.GET, "/permitido").permitAll()
+
 						.anyRequest().authenticated().and()
 						.addFilterBefore(filterAuthorizationUser, UsernamePasswordAuthenticationFilter.class))
-			        	.sessionManagement(
+				.sessionManagement(
 						sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
 		return httpSecurity.build();

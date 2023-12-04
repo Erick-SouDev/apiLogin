@@ -56,14 +56,17 @@ public class ControllerUser {
 	}
 
 	@PostMapping(value = { "/login" })
-	public ResponseEntity autenticar(@RequestBody UserDto dto, HttpServletResponse resp) {
+	public ResponseEntity autenticar(@RequestBody UserDto dto) {
 
 		UsernamePasswordAuthenticationToken userAuthenticatio = new UsernamePasswordAuthenticationToken(dto.getEmail(),
 				dto.getSenha());
 		var tokenGerado = tokenServices.createToken(authenticationManager.authenticate(userAuthenticatio));
-
-	
-		return new ResponseEntity<>(new DtoToken(tokenGerado), HttpStatus.CREATED);
+       
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Authorization", "Bearer "+tokenGerado);
+		    
+		
+		return new ResponseEntity<>(new DtoToken(tokenGerado), headers, HttpStatus.CREATED);
 
 	}
 

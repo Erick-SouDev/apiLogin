@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import erick.br.model.Usuario;
 import erick.br.repository.RepositoryUsuario;
 import erick.br.services.TokenServices;
 import jakarta.servlet.FilterChain;
@@ -45,6 +46,8 @@ public class SecurityFilterAuthorizationUser extends OncePerRequestFilter {
 
 		}
 		filterChain.doFilter(request, response);
+	
+
 	}
 
 }

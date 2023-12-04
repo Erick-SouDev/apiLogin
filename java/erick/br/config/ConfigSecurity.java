@@ -41,14 +41,7 @@ public class ConfigSecurity {
 			return config;
 		}));
 
-		/*
-		 * httpSecurity.cors().configurationSource(request -> { CorsConfiguration config
-		 * = new CorsConfiguration(); // Configurações CORS personalizadas aqui
-		 * config.setAllowedOrigins(Arrays.asList("*"));
-		 * config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT",
-		 * "DELETE , OPTION")); config.setAllowedHeaders(Arrays.asList("Authorization",
-		 * "Content-Type")); return config; });
-		 */
+	
 
 		httpSecurity
 				.authorizeHttpRequests((auth) -> auth.requestMatchers(HttpMethod.POST, "/login").permitAll()

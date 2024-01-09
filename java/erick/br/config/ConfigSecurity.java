@@ -34,7 +34,7 @@ public class ConfigSecurity {
 		httpSecurity.csrf((csrf) -> csrf.disable());
 		httpSecurity.cors(cors -> cors.configurationSource(request -> {
 			CorsConfiguration config = new CorsConfiguration();
-			config.setAllowedOrigins(Arrays.asList("Access-Control-Allow-Origin", "*"));
+			config.setAllowedOrigins(Arrays.asList("*"));
 			config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE , OPTION"));
 			config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type" , "Origin"));
 			config.setAllowCredentials(false);
@@ -45,7 +45,6 @@ public class ConfigSecurity {
 
 		httpSecurity.sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 		.authorizeHttpRequests(auth-> auth.requestMatchers(HttpMethod.POST,"/create").permitAll())
-		.authorizeHttpRequests(auth-> auth.requestMatchers(HttpMethod.GET,"/permitido").permitAll())
 		.authorizeHttpRequests(auth-> auth.requestMatchers(HttpMethod.POST, "/login").permitAll())
 		.authorizeHttpRequests(auth-> auth.anyRequest().authenticated())
 		.addFilterBefore(authorizationUser, UsernamePasswordAuthenticationFilter.class);

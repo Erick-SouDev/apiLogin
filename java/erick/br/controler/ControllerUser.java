@@ -1,14 +1,10 @@
 package erick.br.controler;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties.Authentication;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.web.header.Header;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,18 +51,12 @@ public class ControllerUser {
 
 	}
 
+	@SuppressWarnings("unused")
 	@PostMapping(value = { "/login" })
 	public ResponseEntity autenticar(@RequestBody UserDto dto) {
-
-		UsernamePasswordAuthenticationToken userAuthenticatio = new UsernamePasswordAuthenticationToken(dto.getEmail(),
-				dto.getSenha());
-		var tokenGerado = tokenServices.createToken(authenticationManager.authenticate(userAuthenticatio));
-       
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Authorization", "Bearer "+tokenGerado);
-		    
-		
-		return new ResponseEntity<>(new DtoToken(tokenGerado), headers, HttpStatus.CREATED);
+	
+		var tokenGerado = tokenServices.createToken(authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(dto.getEmail(),dto.getSenha())));
+		return new ResponseEntity<>(new DtoToken(tokenGerado),  HttpStatus.CREATED);
 
 	}
 

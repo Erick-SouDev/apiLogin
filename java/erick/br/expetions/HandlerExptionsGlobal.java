@@ -19,7 +19,7 @@ public class HandlerExptionsGlobal extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handlerExeptionDataIntegri(Exception e) {
 		String msg = "";
 		if (e instanceof DataIntegrityViolationException) {
-			msg = ((DataIntegrityViolationException) e).getLocalizedMessage();
+			msg = ((DataIntegrityViolationException) e) + "Esse Email Ja Existe ";;
 		} else {
 			msg = e.getMessage();
 		}
